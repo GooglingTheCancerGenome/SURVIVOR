@@ -346,7 +346,10 @@ void print_entry_overlap(FILE *& file, SVS_Node * entry, int id) {
 		convert << "\t";
 		if (pos < entry->caller_info.size() && i == entry->caller_info[pos]->id) {
 			//	std::cout<<"hit: "<<i<<std::endl;
-			convert << entry->caller_info[pos]->genotype;
+
+			// Changed the following line because Manta has a malformed GT field
+			// convert << entry->caller_info[pos]->genotype;
+			convert << "0/0";
 			convert << ":";
 			if (!entry->caller_info[pos]->pre_supp_vec.empty()) {
 				convert << entry->caller_info[pos]->pre_supp_vec;
@@ -566,7 +569,8 @@ void combine_calls_svs(std::string files, int max_dist, int min_support, int typ
 		//	std::cout<<"Min3: "<<	Parameter::Instance()->min_support<<" "<<support<<std::endl;
 			if (support >= min_support && len > min_svs) {
 
-				print_entry_overlap_BND(file, (*i), id);
+                // Using method print_entry_overlap instead of print_entry_overlap_BND
+				print_entry_overlap(file, (*i), id);
 			}
 			//		while (support >= (int)hist.size()) {
 			//			hist.push_back(0);
